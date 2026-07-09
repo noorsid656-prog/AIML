@@ -1,0 +1,91 @@
+# AI & ML Lab Practical
+# BFS and DFS on a Social Network Graph
+# Google Colab Code
+
+from collections import deque
+
+# Graph Representation
+graph = {
+    "Alice": ["Charlie", "David"],
+    "Charlie": ["Alice", "Emma"],
+    "David": ["Alice", "Emma", "Fred"],
+    "Emma": ["Bob", "Charlie", "David"],
+    "Fred": ["Bob", "David"],
+    "Bob": ["Emma", "Fred"]
+}
+
+# Arrange neighbors alphabetically
+for node in graph:
+    graph[node] = sorted(graph[node])
+
+
+# ---------------- BFS ----------------
+def bfs(graph, start, goal):
+    queue = deque([(start, [start])])
+    visited = set()
+
+    print("===== Breadth First Search (BFS) =====\n")
+
+    while queue:
+        current, path = queue.popleft()
+
+        if current not in visited:
+            visited.add(current)
+
+            print("Current Node :", current)
+            print("Queue        :", [item[0] for item in queue])
+            print("Visited      :", list(visited))
+            print()
+
+            if current == goal:
+                print("Goal Found!")
+                return path
+
+            for neighbor in graph[current]:
+                if neighbor not in visited:
+                    queue.append((neighbor, path + [neighbor]))
+
+    return None
+
+
+# ---------------- DFS ----------------
+def dfs(graph, start, goal):
+    stack = [(start, [start])]
+    visited = set()
+
+    print("\n===== Depth First Search (DFS) =====\n")
+
+    while stack:
+        current, path = stack.pop()
+
+        if current not in visited:
+            visited.add(current)
+
+            print("Current Node :", current)
+            print("Stack        :", [item[0] for item in stack])
+            print("Visited      :", list(visited))
+            print()
+
+            if current == goal:
+                print("Goal Found!")
+                return path
+
+            # Reverse order so alphabetical order is maintained
+            for neighbor in reversed(graph[current]):
+                if neighbor not in visited:
+                    stack.append((neighbor, path + [neighbor]))
+
+    return None
+
+
+# Source and Goal
+source = "Alice"
+goal = "Bob"
+
+# Run BFS
+bfs_path = bfs(graph, source, goal)
+print("BFS Path :", " -> ".join(bfs_path))
+
+# Run DFS
+dfs_path = dfs(graph, source, goal)
+print("DFS Path :", " -> ".join(dfs_path))
