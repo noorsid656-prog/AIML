@@ -1,6 +1,6 @@
 import pandas as pd
 
-# Create the dataset
+
 data = {
     "Latency Sensitivity": ["High", "High", "High", "Low", "High"],
     "Data Volume": ["Large", "Small", "Large", "Large", "Large"],
@@ -10,28 +10,26 @@ data = {
     "High-Performance Edge": ["Yes", "No", "Yes", "No", "Yes"]
 }
 
-# Convert to DataFrame
+
 df = pd.DataFrame(data)
 
-# Save as CSV
 df.to_csv("workload_data.csv", index=False)
 
 print("Dataset Created Successfully!\n")
 
-# Load Dataset
+
 dataset = pd.read_csv("workload_data.csv")
 
 print("Dataset:")
 print(dataset)
 
 
-# Attributes
 concepts = dataset.iloc[:, :-1].values
 
-# Target
+
 target = dataset.iloc[:, -1].values
 
-# Initialize hypothesis
+
 hypothesis = ['0'] * len(concepts[0])
 
 print("\nInitial Hypothesis:")
@@ -39,7 +37,7 @@ print(hypothesis)
 
 print("\nProcessing Each Training Example...\n")
 
-# Find-S Algorithm
+
 for i in range(len(target)):
 
     print("Example", i + 1)
