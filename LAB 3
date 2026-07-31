@@ -1,0 +1,19 @@
+import pandas as pd
+
+# Create the dataset
+data = {
+    "Latency Sensitivity": ["High", "High", "High", "Low", "High"],
+    "Data Volume": ["Large", "Small", "Large", "Large", "Large"],
+    "RAM Demand": ["High", "High", "High", "Medium", "High"],
+    "Network Bandwidth": ["Dedicated", "Shared", "Shared", "Shared", "Dedicated"],
+    "GPU Required": ["Yes", "Yes", "Yes", "No", "No"],
+    "High-Performance Edge": ["Yes", "No", "Yes", "No", "Yes"]
+}
+
+# Convert to DataFrame
+df = pd.DataFrame(data)
+
+# Save CSV in the current project folder
+df.to_csv("workload_data.csv", index=False)
+
+print("CSV file saved successfully!")
