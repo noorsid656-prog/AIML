@@ -1,0 +1,91 @@
+# Candidate Elimination Algorithm
+
+data = [
+    ["Sunny", "Warm", "Normal", "Strong", "Yes"],
+    ["Sunny", "Warm", "High", "Strong", "Yes"],
+    ["Rainy", "Cold", "High", "Strong", "No"],
+    ["Sunny", "Warm", "High", "Weak", "Yes"]
+]
+
+# Initialize Specific and General boundaries
+S = ["Ø", "Ø", "Ø", "Ø"]
+G = [["?", "?", "?", "?"]]
+
+
+def display(step, S, G):
+    print("\nAfter", step)
+    print("S =", S)
+    print("G =", G)
+
+
+for index, instance in enumerate(data):
+
+    attributes = instance[:-1]
+    target = instance[-1]
+
+    # Positive instance
+    if target == "Yes":
+
+        for i in range(len(S)):
+
+            if S[i] == "Ø":
+                S[i] = attributes[i]
+
+            elif S[i] != attributes[i]:
+                S[i] = "?"
+
+        # Remove G hypotheses that do not cover positive example
+        new_G = []
+
+        for hypothesis in G:
+            covers = True
+
+            for i in range(len(hypothesis)):
+                if hypothesis[i] != "?" and hypothesis[i] != attributes[i]:
+                    covers = False
+                    break
+
+            if covers:
+                new_G.append(hypothesis)
+
+        G = new_G
+
+    # Negative instance
+    else:
+
+        new_G = []
+
+        for hypothesis in G:
+
+            # If hypothesis covers negative example,
+            # specialize it
+            covers = True
+
+            for i in range(len(hypothesis)):
+                if hypothesis[i] != "?" and hypothesis[i] != attributes[i]:
+                    covers = False
+                    break
+
+            if covers:
+
+                for i in range(len(hypothesis)):
+
+                    if hypothesis[i] == "?":
+
+                        # Use the corresponding value from S
+                        if S[i] != "?" and S[i] != attributes[i]:
+                            new_hypothesis = hypothesis.copy()
+                            new_hypothesis[i] = S[i]
+                            new_G.append(new_hypothesis)
+
+            else:
+                new_G.append(hypothesis)
+
+        G = new_G
+
+    display("D" + str(index + 1), S, G)
+
+
+print("\nFinal Boundaries")
+print("S =", S)
+print("G =", G)Z
