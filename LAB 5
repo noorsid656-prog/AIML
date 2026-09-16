@@ -1,0 +1,53 @@
+import pandas as pd
+
+data = {
+    'Outlook': ['Sunny','Sunny','Overcast','Rain','Rain','Rain','Overcast',
+                'Sunny','Sunny','Rain','Sunny','Overcast','Overcast','Rain'],
+
+    'Temperature': ['Hot','Hot','Hot','Mild','Cool','Cool','Cool',
+                    'Mild','Cool','Mild','Mild','Mild','Hot','Mild'],
+
+    'Humidity': ['High','High','High','High','Normal','Normal','Normal',
+                 'High','Normal','Normal','Normal','High','Normal','High'],
+
+    'Wind': ['Weak','Strong','Weak','Weak','Weak','Strong','Strong',
+             'Weak','Weak','Weak','Strong','Strong','Weak','Strong'],
+
+    'Play Tennis': ['No','No','Yes','Yes','Yes','No','Yes',
+                    'No','Yes','Yes','Yes','Yes','Yes','No']
+}
+
+df = pd.DataFrame(data)
+
+df
+from sklearn.preprocessing import LabelEncoder
+from sklearn.tree import DecisionTreeClassifier, plot_tree
+import matplotlib.pyplot as plt
+X = df.drop('Play Tennis', axis=1)
+y = df['Play Tennis']
+
+le = LabelEncoder()
+
+for column in X.columns:
+    X[column] = le.fit_transform(X[column])
+
+y = le.fit_transform(y)
+
+X
+model = DecisionTreeClassifier(
+    criterion='entropy',
+    random_state=0
+)
+
+model.fit(X, y)
+criterion='entropy'
+plt.figure(figsize=(15, 8))
+
+plot_tree(
+    model,
+    feature_names=X.columns,
+    class_names=['No', 'Yes'],
+    filled=True
+)
+
+plt.show()
